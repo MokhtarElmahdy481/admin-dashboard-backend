@@ -42,14 +42,12 @@ class EditUserProfile extends Component
             Storage::delete($this->user->image);
             $data['image'] = $this->image->store('uploads','public');
         }
-            // 1 true                                  1 false
-            // 1 true                                  2 true
-            // 2 false                                 1 false
-            // 2 false                                 2 true
-        // if(Auth::user()->id == 1 || $this->user != 1){
-            
-            // }
-                $this->user->update($data);
+        if(Auth::user()->id == 1 || $this->user != 1){
+            $this->user->update($data);
+        }else{
+        return redirect(route('allUsers'))->with('error',"Account Adminstrator can not be updated");
+
+        }
         
         return redirect(route('allUsers'))->with('success',"Account updated successfully");
 
